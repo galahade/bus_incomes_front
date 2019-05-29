@@ -10,24 +10,13 @@
         <button v-on:click="goBack">Back</button>
       </div>
     </div>
-    <div class="row align-items-start">
-      <b-nav tabs>
-        <b-nav-item active>Active</b-nav-item>
-        <b-nav-item>Link</b-nav-item>
-        <b-nav-item>Another Link</b-nav-item>
-        <b-nav-item disabled>Disabled</b-nav-item>
-      </b-nav>
-      <div class="col">
-        <!-- use router-link component for navigation. -->
-        <!-- specify the link by passing the `to` prop. -->
-        <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
-        <router-link to="/vueHome">Vue 主页</router-link>
-      </div>
-      <div class="col">
-        <router-link to="/showComparedMonthlyIncomes">计算月度收入</router-link>
-      </div>
-      <div class="col">
-        <router-link to="/addIncomes">增加月度新收入</router-link>
+    <div class="row">
+      <div class="col-sm">
+        <b-nav tabs align="center">
+          <b-nav-item><router-link to="/vueHome">Vue 主页</router-link></b-nav-item>
+          <b-nav-item><router-link to="/showComparedMonthlyIncomes">月收入统计</router-link></b-nav-item>
+          <b-nav-item><router-link to="/addIncomes">增加月度收入</router-link></b-nav-item>
+       </b-nav>
       </div>
     </div>
     <div class="row">

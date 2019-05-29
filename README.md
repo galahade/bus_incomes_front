@@ -16,6 +16,7 @@ yarn install
 ## Add new package
 ```
 yarn add bootstrap-vue bootstrap vue-router axios vue-moment vue-chartjs chart.js vuelidate
+yarn add lodash
 
 ```
 
