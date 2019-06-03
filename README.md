@@ -1,23 +1,46 @@
-# bus_incomes
-
 # bus_incomes vue front end project
 
-## Project initial
-### Create a folder named bus_incomes and initial vue dependence
+## Deploy 
+
+###Ubuntu Deploy
+
+####Install yarn
 ```
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+# install nodejs On Ubuntu 16.04 or below
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+# Finish yarn installation
+sudo apt-get update && sudo apt-get install yarn
+```
+
+####Install vue-cli 
+```
+sudo yarn global add @vue/cli
+sudo yarn global add @vue/cli-service-global
+```
+
+## Project setup, update and build
+```
+yarn install
+yarn run build
+```
+
+## Development
+### Create Project
+```
+# Create a folder named bus_incomes and initial vue dependence
 vue create bus_incomes
 ```
 
-## Project setup and update
+### Add new package
 ```
+yarn add bootstrap-vue bootstrap vue-router axios vue-moment vue-chartjs chart.js vuelidate lodash
+
+# If it's not a new project run to install dependency
+
 yarn install
-```
-
-## Add new package
-```
-yarn add bootstrap-vue bootstrap vue-router axios vue-moment vue-chartjs chart.js vuelidate
-yarn add lodash
-
 ```
 
 ### Compiles and hot-reloads for development
@@ -46,4 +69,20 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### Open this project in a browser tab.
 ```
 yarn run serve --open
+```
+
+
+## Test on server 
+
+### Check if has process listen on 8080
+```
+netstat -nat | grep LISTEN
+sudo lsof -t -i:8080
+# If change config file /etc/nginx/conf.d/bus_incomes.conf
+sudo nginx -s reload
+```
+
+###
+```
+wget -qO- http://localhost:8000/incomes/2019/05
 ```
