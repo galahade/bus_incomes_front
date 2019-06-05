@@ -324,7 +324,7 @@ export default {
           var lineIncome = JSON.parse(JSON.stringify(this.lineMonthIncome))
           var time = moment.utc(this.year_month, 'YYYY-MM', true).format()
           lineIncome.income.month = time
-          axios.post("/incomes",lineIncome).then(() => {
+          axios.post("/data/incomes",lineIncome).then(() => {
             this.submitStatus = 'OK'
            // this.addedIncomes.push(lineIncome)
           }).catch(error => {
@@ -361,7 +361,7 @@ export default {
     },
     fillData() {
       var vm = this
-      var url = "/incomes/" + vm.year + "/" + vm.month
+      var url = "/data/incomes/" + vm.year + "/" + vm.month
       vm.addedIncomes = null
       vm.isBusy = true
       axios.get(url).then(response => {
@@ -383,7 +383,7 @@ export default {
     },
     deleteItem() {
       var vm = this
-      var url = "/incomes/" + vm.year + "/" + vm.month + "/" + this.selectedItem.line.line_no
+      var url = "/data/incomes/" + vm.year + "/" + vm.month + "/" + this.selectedItem.line.line_no
       
       axios.delete(url).then(() => {
           vm.fillData()

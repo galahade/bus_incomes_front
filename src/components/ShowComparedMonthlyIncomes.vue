@@ -73,7 +73,7 @@ export default {
       this.error = this.post = null
       this.loading = true
       axios
-        .get('/monthIncomesCompare/2019/04')
+        .get('/data/monthIncomesCompare/2019/04')
         .then(response => {
         this.loading = false
         this.twoMonthIncomes = response.data.two_month_incomes
