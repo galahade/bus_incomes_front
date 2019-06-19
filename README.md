@@ -23,6 +23,7 @@ sudo yarn global add @vue/cli-service-global
 
 ## Project setup, update and build
 ```
+# project position : /var/git/web/bus_incomes_front/dist
 yarn install
 yarn run build
 ```

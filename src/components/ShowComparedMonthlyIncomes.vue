@@ -6,6 +6,26 @@
     <div v-if="error" class="error">
       {{ error }}
     </div>
+    <b-container fluid>
+      <b-row>
+        <b-col></b-col>
+        <b-col>
+          <b-form-group
+            id="input-group-1"
+            label="月份"
+            label-for="input-1"
+            label-size="sm"
+            label-cols
+            label-align-sm="center"
+          >
+            <b-form-input id="input-1" type="month" size="sm"
+              v-model.lazy="year_month"
+            ></b-form-input>
+          </b-form-group>       
+        </b-col>
+        <b-col></b-col>
+      </b-row>
+    </b-container>
     <div v-if="post" class="Chart__list">
       <div class="Chart">
         <h2>{{ currentMonth }}得分排名（从低到高）</h2>
@@ -28,6 +48,7 @@ import BarExample from './BarChart.js'
 import LineExample from './LineChart.js'
 
 import axios from 'axios'
+import lodash from 'lodash'
 
 //import moment from 'moment'
 
@@ -59,22 +80,38 @@ export default {
       attendanceDiffRates: [],
       scores: [],
       scoresCollection: {},
+      year_month: '',
+      year: '',
+      month: '',
     }
   },
-  created() {
-    this.fetchData()
+  created: function () {
+    // `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
+    // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+    // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
+    // `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
+    // 请参考：https://lodash.com/docs#debounce
+    this.debouncedFillData = lodash.debounce(this.fetchData, 500)
   },
   watch: {
     // call again the method if the route changes
-    '$route': 'fetchData'
+    '$route': 'fetchData',
+    // 如果 `year_month` 发生改变，这个函数就会运行
+    year_month: function (newMonth) {
+      var temps = lodash.split(newMonth, '-', 2)
+      this.year = temps[0]
+      this.month = temps[1]
+      this.debouncedFillData()
+    }
   },
   methods: {
     fetchData: function() {
+      var vm = this
       this.error = this.post = null
       this.loading = true
+      var url = "/data/monthIncomesCompare/" + vm.year + "/" + vm.month
       axios
-        .get('/data/monthIncomesCompare/2019/04')
-        .then(response => {
+        .get(url).then(response => {
         this.loading = false
         this.twoMonthIncomes = response.data.two_month_incomes
         this.currentIncomes = this.twoMonthIncomes.map(a => a.final_total_income)
