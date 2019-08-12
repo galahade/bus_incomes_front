@@ -16,6 +16,7 @@
           <b-nav-item><router-link to="/vueHome">Vue 主页</router-link></b-nav-item>
           <b-nav-item><router-link to="/showComparedMonthlyIncomes">月收入统计</router-link></b-nav-item>
           <b-nav-item><router-link to="/addIncomes">增加月度收入</router-link></b-nav-item>
+          <b-nav-item><router-link to="/erp">erp</router-link></b-nav-item>
        </b-nav>
       </div>
     </div>
@@ -34,11 +35,13 @@
   import VueHome from './VueHome.vue'
   import SCMI from './ShowComparedMonthlyIncomes.vue'
   import IncomesForm from './IncomesForm.vue'
+  import ERP from './ERP.vue'
 
   const routes = [
     { path: '/vueHome', component: VueHome },
     { path: '/showComparedMonthlyIncomes', component: SCMI},
-    { path: '/addIncomes', component: IncomesForm }
+    { path: '/addIncomes', component: IncomesForm },
+    { path: '/erp', component: ERP }
   ]
 
   const router = new VueRouter({
