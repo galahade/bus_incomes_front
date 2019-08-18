@@ -104,7 +104,7 @@ export default {
         sn: '',
         name: '',
       },
-      baseURL: "/data/departments",
+      baseURL: "/data/department",
       selectedItem: null,
       show: true,
       submitStatus: null,
@@ -157,7 +157,7 @@ export default {
         console.log(this.departmentForm)
         console.log(JSON.stringify(this.departmentForm))
         console.log(postData)
-        axios.post("/data/department",postData).then(() => {
+        axios.post(this.baseURL,postData).then(() => {
           this.submitStatus = 'OK'
         }).catch(error => {
           //console.log(error.response)
@@ -204,7 +204,7 @@ export default {
     },
     deleteItem() {
       var vm = this
-      var url = "/data/department"
+      var url = this.baseURL
     //  console.log(this.selectedItem)
       var data = JSON.parse(JSON.stringify(this.selectedItem))
       axios.delete(url, { data: data}).then(() => {
