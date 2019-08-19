@@ -13,7 +13,6 @@
     <div class="row">
       <div class="col-sm">
         <b-nav tabs align="center">
-          <b-nav-item><router-link to="/vueHome">Vue 主页</router-link></b-nav-item>
           <b-nav-item><router-link to="/showComparedMonthlyIncomes">月收入统计</router-link></b-nav-item>
           <b-nav-item><router-link to="/addIncomes">增加月度收入</router-link></b-nav-item>
           <b-nav-item><router-link to="/erp">erp</router-link></b-nav-item>

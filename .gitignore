@@ -20,3 +20,4 @@ yarn-error.log*
 *.sln
 *.sw?
 .tags*
+package-lock.json
