@@ -36,6 +36,7 @@
         </b-alert>
       </b-col>
     </b-row>
+    <b-form @submit.prevent="submit" novalidate>
     <b-row class="justify-content-md-center">
       <b-col sm="4">
         <b-form-group
@@ -45,18 +46,19 @@
         label-size="sm"
         label-cols-sm="4"
         label-align-sm="center">
-          <b-form-select id="input-1" v-model="department_id" :options="departmentsOptions" size="sm" :select-size="4" @input="onDepartmentInput"></b-form-select>
+          <b-form-select id="input-1" v-model="$v.assetForm.department_id.$model" :options="departmentsOptions" size="sm" :select-size="4" @input="onDepartmentInput" :state="$v.assetForm.department_id.$dirty ? !$v.assetForm.department_id.$error : null"></b-form-select>
         </b-form-group>
       </b-col>
-      <b-col v-if="department_id" sm="4">
+      <b-col v-if="assetForm.department_id" sm="4">
         <b-form-group
         id="input-group-2"
         label="选择员工"
         label-for="input-2"
         label-size="sm"
         label-cols-sm="4"
+        description="部门公用设备请选择部门负责人"
         label-align-sm="center">
-          <b-form-select id="input-2" v-model="staff_id" :options="staffOptions" size="sm" :select-size="6" @input="onStaffInput"></b-form-select>
+          <b-form-select id="input-2" v-model="$v.assetForm.staff_id.$model" :options="staffOptions" size="sm" :select-size="6" @input="onStaffInput" :state="$v.assetForm.staff_id.$dirty ? !$v.assetForm.staff_id.$error : null"></b-form-select>
         </b-form-group>
       </b-col>
       <b-col sm="4">
@@ -64,89 +66,127 @@
     </b-row>
     <b-row class="justify-content-md-center">
       <b-col sm="12">
-        <b-alert v-if="staff_id" variant="info" show>
+        <b-alert v-if="assetForm.staff_id" variant="info" show>
           请为 <b>{{staf.name}}</b> 添加其管理的固定资产。
         </b-alert>
       </b-col>
     </b-row>
-    <b-form @submit.prevent="submit" novalidate>
-        <!--
+    <div v-if="assetForm.staff_id">
+    <b-row>
+      <b-col cols="4"></b-col>
+      <b-col cols="4">
+        <h3>添加资产</h3>
+      </b-col>
+      <b-col cols="4"></b-col>
+    </b-row>
       <b-form-row class="justify-content-md-center">
         <b-col sm="5">
           <b-form-group
-          id="input-group-5"
-          label="多次入职"
-          label-for="radio-group-5"
+          id="input-group-1"
+          label="名称"
+          label-for="radio-group-1"
           label-size="sm"
           label-cols-sm="4"
           label-align-sm="center">
-            <b-form-radio-group id="radio-group-5" v-model="$v.staffForm.is_multitime_hired.$model" name="multitime_hired"
-            :state="$v.staffForm.is_multitime_hired.$dirty ? !$v.staffForm.is_multitime_hired.$error : null">
-              <b-form-radio value=false>否</b-form-radio>
-              <b-form-radio value=true>是</b-form-radio>
-            </b-form-radio-group>
-          </b-form-group>
-        </b-col>
-        <b-col sm="5">
-          <b-form-group
-          id="input-group-6"
-          label="是否离职"
-          label-for="radio-group-6"
-          label-size="sm"
-          label-cols-sm="4"
-          label-align-sm="center">
-            <b-form-radio-group id="radio-group-6" v-model="$v.staffForm.is_resign.$model" name="resign"
-            :state="$v.staffForm.is_resign.$dirty ? !$v.staffForm.is_resign.$error : null">
-              <b-form-radio value=false>否</b-form-radio>
-              <b-form-radio value=true>是</b-form-radio>
-            </b-form-radio-group>
-          </b-form-group>
-        </b-col>
-      </b-form-row>
-      <b-form-row class="justify-content-md-center">
-        <b-col sm="5">
-          <b-form-group
-          id="input-group-7"
-          label="手机"
-          label-for="input-7"
-          label-size="sm"
-          label-cols-sm="4"
-          label-align-sm="center">
-            <b-form-input id="input-7" type="text" size="sm"
-              v-model.lazy="$v.staffForm.phone.$model"
-              :state="$v.staffForm.phone.$dirty ? !$v.staffForm.phone.$error : null">
+            <b-form-input id="input-1" type="text" size="sm"
+              v-model.lazy="$v.assetForm.name.$model"
+              :state="$v.assetForm.name.$dirty ? !$v.assetForm.name.$error : null">
             </b-form-input>
           </b-form-group>
         </b-col>
-        <b-col sm="5">
-          <b-form-group
-          id="input-group-8"
-          label="首次入职"
-          label-for="input-8"
-          label-size="sm"
-          label-cols-sm="4"
-          label-align-sm="center">
-            <b-form-input id="input-8" type="date" size="sm"
-              v-model.lazy="$v.staffForm.first_onboard_time.$model"
-              :state="$v.staffForm.first_onboard_time.$dirty ? !$v.staffForm.first_onboard_time.$error : null">
-            </b-form-input>
-          </b-form-group>
-        </b-col>
-      </b-form-row>
-      <b-form-row class="justify-content-md-center">
         <b-col sm="5">
           <b-form-group
           id="input-group-9"
-          label="职务"
+          label="品牌"
           label-for="input-9"
           label-size="sm"
           label-cols-sm="4"
           label-align-sm="center">
-            <b-form-select id="input-9" v-model="$v.staffForm.job.$model" :options="jobTypes" :state="$v.staffForm.job.$dirty ? !$v.staffForm.job.$error : null" size="sm"></b-form-select>
+            <b-form-input id="input-8" type="text" size="sm"
+              v-model.lazy="assetForm.brand">
+            </b-form-input>
+          </b-form-group>
+        </b-col>
+      </b-form-row>
+      <b-form-row class="justify-content-md-center">
+        <b-col sm="5">
+          <b-form-group
+          id="input-group-2"
+          label="型号"
+          label-for="radio-group-2"
+          label-size="sm"
+          label-cols-sm="4"
+          label-align-sm="center">
+            <b-form-input id="input-2" type="text" size="sm"
+              v-model.lazy="$v.assetForm.model.$model"
+              :state="$v.assetForm.model.$dirty ? !$v.assetForm.model.$error : null">
+            </b-form-input>
+          </b-form-group>
+
+        </b-col>
+        <b-col sm="5">
+          <b-form-group
+          id="input-group-2"
+          label="数量"
+          label-for="input-2"
+          label-size="sm"
+          label-cols-sm="4"
+          description="有序列号的数量只能为1"
+          label-align-sm="center">
+            <b-form-input id="input-2" type="number" size="sm"
+              v-model.lazy="$v.assetForm.quantity.$model"
+              :state="$v.assetForm.quantity.$dirty ? !$v.assetForm.quantity.$error : null">
+            </b-form-input>
+          </b-form-group>
+
+        </b-col>
+      </b-form-row>
+      <b-form-row class="justify-content-md-center">
+        <b-col sm="5">
+          <b-form-group
+          id="input-group-8"
+          label="序列号"
+          label-for="input-8"
+          label-size="sm"
+          label-cols-sm="4"
+          description="有序列号的必须填写"
+          label-align-sm="center">
+            <b-form-input id="input-8" type="text" size="sm"
+              v-model.lazy="assetForm.sn">
+            </b-form-input>
           </b-form-group>
         </b-col>
         <b-col sm="5">
-
+          <b-form-group
+          id="input-group-9"
+          label="开始时间"
+          label-for="input-9"
+          label-size="sm"
+          label-cols-sm="4"
+          label-align-sm="center">
+            <b-form-input id="input-8" type="date" size="sm"
+              v-model.lazy="$v.assetForm.startTime.$model" :state="$v.assetForm.startTime.$dirty ? !$v.assetForm.startTime.$error : null">
+            </b-form-input>
+          </b-form-group>
+        </b-col>
+      </b-form-row>
+      <b-form-row>
+        <b-col sm="10">
+          <b-form-group
+          id="input-group-10"
+          label="备注"
+          label-for="input-10"
+          label-size="sm"
+          label-cols-sm="4"
+          label-align-sm="center">
+            <b-form-textarea
+              id="textarea"
+              v-model="assetForm.note"
+              placeholder="需要备注的内容"
+              rows="3"
+              max-rows="6"
+            ></b-form-textarea>
+          </b-form-group>
         </b-col>
       </b-form-row>
       <b-row align-h="center">
@@ -158,7 +198,7 @@
           <b-button @click="onReset" size="sm" variant="danger">重置</b-button>
         </b-col>
       </b-row>
-    -->
+    </div>
     </b-form>
     <b-row>
       <b-col><br></b-col>
@@ -180,12 +220,12 @@
       </b-col>
       <b-col></b-col>
     </b-row>
-    <b-row>
+    <b-row v-if="assetForm.staff_id">
       <b-table striped bordered hover small selectable
         :busy="isBusy"
         select-mode="single"
         selectedVariant="success"
-        :items="staff"
+        :items="assets"
         :fields="tableFields"
         @row-selected="rowSelected"
         ref="table"
@@ -212,36 +252,28 @@
   </b-container>
 </template>
 <script>
-import { required} from 'vuelidate/lib/validators'
+import { required, minValue, integer} from 'vuelidate/lib/validators'
 //import moment from 'moment'
-
 import axios from 'axios'
 import lodash from 'lodash'
 import moment from 'moment'
 
 export default {
-  name: 'staff',
+  name: 'asset',
   data() {
     return {
-      staffForm: {
-        id: null,
+      assetForm: {
         name: '',
-        employee_id: '',
-        onboard_time: '',
-        personal_id: '',
-        is_multitime_hired: false,
-        is_resign: false,
-        first_onboard_time: '',
-        phone: '',
-        department: {
-            id: '',
-            sn: '',
-            name: ''
-        },
-        job: '',
+        model: '',
+        sn: '',
+        brand: '',
+        startTime: '',
+        note: '',
+        department_id: '',
+        staff_id: '',
+        quantity: 1,
       },
-      department_id: '',
-      staff_id: '',
+      assets: [],
       baseURL: "/data/staff",
       selectedItem: null,
       submitStatus: '',
@@ -265,87 +297,54 @@ export default {
         },
         {
           key: 'name',
-          label: '姓名',
+          label: '名称',
         },
         {
-          key: 'employee_id',
-          label: '编号',
+          key: 'brand',
+          label: '品牌',
         },
         {
-          key: 'onboard_time',
-          label: '入职时间',
+          key: 'quantity',
+          label: '数量',
           sortable: true
         },
         {
-          key: 'age',
-          label: '年龄',
-          formatter: (value, key, item) => {
-            //  return new Date().getFullYear() - item.age
-             var re = new RegExp(/^(\d{6})()?(\d{4})(\d{2})(\d{2})(\d{3})(\d)$/);
-             var a = item.personal_id.match(re);
-            return new Date().getFullYear() - a[3]
-          }
+          key: 'sn',
+          label: '序列号',
         },
         {
-          key: 'personal_id',
-          label: '身份证',
+          key: 'startTime',
+          label: '开始时间',
         },
         {
-          key: 'is_multitime_hired',
-          label: '多次入职',
-          formatter: value => {
-              return value ? '是' : '否'
-            }
-        },
-        {
-          key: 'phone',
-          label: '手机',
-        },
-        {
-          key: 'department.name',
-          label: '部门',
-        },
-        {
-          key: 'job',
-          label: '职位',
+          key: 'note',
+          label: '备注',
         }
       ]
     }
   },
   validations: {
-    staffForm: {
+    assetForm: {
       name: {
         required,
       },
-      employee_id: {
+      model: {
         required,
       },
-      onboard_time: {
+      quantity: {
+        required,
+        integer,
+        minValue: minValue(1),
+      },
+      startTime: {
         required,
       },
-      personal_id: {
+      department_id: {
         required,
       },
-      is_multitime_hired: {
+      staff_id: {
         required,
       },
-      is_resign: {
-        required,
-      },
-      first_onboard_time: {
-        required,
-      },
-      phone: {
-        required,
-      },
-      department: {
-          id: {
-            required,
-          }
-      },
-      job: {
-        required,
-      }
     }
   },
   created: function () {
@@ -364,16 +363,16 @@ export default {
   methods: {
     submit() {
       this.error = ''
-      this.$v.staffForm.$touch();
-      if (this.$v.staffForm.$invalid) {
+      this.$v.assetForm.$touch();
+      if (this.$v.assetForm.$invalid) {
         this.submitStatus = 'ERROR'
       } else {
         // do your submit logic here
         this.submitStatus = 'PENDING'
-        var postData = JSON.parse(JSON.stringify(this.staffForm))
+        var postData = JSON.parse(JSON.stringify(this.assetForm))
         axios.post(this.baseURL,postData).then(() => {
           this.submitStatus = 'OK'
-          var message = "创建员工：" + this.staffForm.name + "成功！"
+          var message = "创建员工：" + this.assetForm.name + "成功！"
           this.debouncedFillData()
           this.showSuccessAlert()
         }).catch(error => {
@@ -393,7 +392,7 @@ export default {
       }
     },
     update() {
-      var message = "修改员工：" + this.staffForm.name + "成功！"
+      var message = "修改员工：" + this.assetForm.name + "成功！"
       this.showConfirmMsgBox(message)
       this.showSuccessAlert()
     },
@@ -410,9 +409,8 @@ export default {
       this.successDismissCountDown = dismissCountDown
     },
     onReset() {
-      // reset staffForm
+      // reset assetForm
       // reset form select
-      this.department_id = ''
       // reset status items
       this.selectedItem = null
       this.submitStatus = ''
@@ -448,13 +446,13 @@ export default {
         }).catch(function (error) {
           if (error.response) {
               vm.error = "获取部门错误：" + error
-              this.showErrorAlert()
+              vm.showErrorAlert()
             }
         })
     },
     fetchStaffByDepartmentID() {
       var vm = this
-      var url = "/data/department/" + vm.department_id + "/staff"
+      var url = "/data/department/" + vm.assetForm.department_id + "/staff"
       vm.staffOptions = []
       vm.staff = new Map()
       axios.get(url).then(response => {
@@ -468,11 +466,11 @@ export default {
         }).catch(function (error) {
           if (error.response) {
               vm.error = "获取员工错误：" + error
-              this.showErrorAlert()
+              vm.showErrorAlert()
             }
         })
     },
-    onDepartmentInput() {
+    onDepartmentInput(value) {
       this.fetchStaffByDepartmentID()
     },
     onStaffInput(value) {
@@ -501,7 +499,7 @@ export default {
     readyForChange() {
       var vm = this
       var data = JSON.parse(JSON.stringify(this.selectedItem))
-      var form = this.staffForm
+      var form = this.assetForm
       form.name = data.name
       form.employee_id = data.employee_id
       form.personal_id = data.personal_id
@@ -540,10 +538,10 @@ export default {
       this.dialogConfirm(message, this.update)
     },
     submitConfirm() {
-      if (!this.staffForm.is_multitime_hired) {
-        this.staffForm.first_onboard_time = this.staffForm.onboard_time
+      if (!this.assetForm.is_multitime_hired) {
+        this.assetForm.first_onboard_time = this.assetForm.onboard_time
       }
-      var message = '确认提交 ' + this.staffForm.name + ' 的信息？'
+      var message = '确认提交 ' + this.assetForm.name + ' 的信息？'
       this.dialogConfirm(message, this.submit)
     },
     showConfirmMsgBox(message) {
