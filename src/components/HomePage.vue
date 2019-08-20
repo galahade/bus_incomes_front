@@ -1,32 +1,32 @@
 <template>
-  <div>
-    <div class="row">
-      <div class="col-sm">
+  <b-container fluid>
+    <b-row>
+      <b-col>
         <h3>{{ msg }}</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
         <button v-on:click="goBack">Back</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm">
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
         <b-nav tabs align="center">
           <b-nav-item><router-link to="/showComparedMonthlyIncomes">月收入统计</router-link></b-nav-item>
           <b-nav-item><router-link to="/addIncomes">增加月度收入</router-link></b-nav-item>
           <b-nav-item><router-link to="/erp">erp</router-link></b-nav-item>
        </b-nav>
-      </div>
-    </div>
-    <div class="row">
-        <div class="col">
-          <!-- route outlet -->
-          <!-- component matched by the route will render here -->
-          <router-view></router-view>
-        </div>
-      </div>
-  </div>
+     </b-col>
+   </b-row>
+   <b-row>
+     <b-col>
+        <!-- route outlet -->
+        <!-- component matched by the route will render here -->
+        <router-view></router-view>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>

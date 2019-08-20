@@ -1,6 +1,6 @@
 # bus_incomes vue front end project
 
-## Deploy 
+## Deploy
 
 ###Ubuntu Deploy
 
@@ -15,7 +15,7 @@ sudo apt-get install -y nodejs
 sudo apt-get update && sudo apt-get install yarn
 ```
 
-####Install vue-cli 
+####Install vue-cli
 ```
 sudo yarn global add @vue/cli
 sudo yarn global add @vue/cli-service-global
@@ -23,9 +23,11 @@ sudo yarn global add @vue/cli-service-global
 
 ## Project setup, update and build
 ```
-# project position : /var/git/web/bus_incomes_front/dist
-yarn install
-yarn run build
+# project position :/var/git/web/bus_incomes_front/dist
+cd /var/git/web/bus_incomes_front/
+git pull
+sudo yarn install
+sudo yarn run build
 ```
 
 ## Development
@@ -73,7 +75,7 @@ yarn run serve --open
 ```
 
 
-## Test on server 
+## Test on server
 
 ### Check if has process listen on 8080
 ```

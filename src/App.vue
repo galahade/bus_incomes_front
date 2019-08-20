@@ -1,7 +1,7 @@
 <template>
-  <div id="app" class="container">
-    <HomePage msg="Welcome to 公交收入系统"/>
-  </div>
+  <b-container id="app" fluid>
+    <HomePage msg="公交系统"/>
+  </b-container>
 </template>
 
 <script>
