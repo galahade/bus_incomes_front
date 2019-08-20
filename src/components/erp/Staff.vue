@@ -258,7 +258,6 @@ export default {
   data() {
     return {
       staffForm: {
-        id: null,
         name: '',
         employee_id: '',
         onboard_time: '',

@@ -17,38 +17,46 @@
         <b-col></b-col>
       </b-form-row>
       <b-form-row>
-        <b-form-group
-        id="input-group-1"
-        label="部门编号"
-        label-for="input-1"
-        label-size="sm"
-        label-cols-sm="4"
-        description="比如：001"
-        label-align-sm="center">
-          <b-form-input id="input-1" type="text" size="sm"
-            v-model.lazy="$v.departmentForm.sn.$model"
-            :state="$v.departmentForm.sn.$dirty ? !$v.departmentForm.sn.$error : null">
-          </b-form-input>
-        </b-form-group>
-        <b-form-group
-        id="input-group-2"
-        label="部门名称"
-        label-for="input-2"
-        label-size="sm"
-        label-cols-sm="4"
-        label-align-sm="center">
-          <b-form-input id="input-2" type="text" size="sm"
-            v-model.lazy="$v.departmentForm.name.$model"
-            :state="$v.departmentForm.name.$dirty ? !$v.departmentForm.name.$error : null">
-          </b-form-input>
-        </b-form-group>
+        <b-col cols="5">
+          <b-form-group
+          id="input-group-1"
+          label="部门编号"
+          label-for="input-1"
+          label-size="sm"
+          label-cols-sm="4"
+          description="比如：001"
+          label-align-sm="center">
+            <b-form-input id="input-1" type="text" size="sm"
+              v-model.lazy="$v.departmentForm.sn.$model"
+              :state="$v.departmentForm.sn.$dirty ? !$v.departmentForm.sn.$error : null">
+            </b-form-input>
+          </b-form-group>
+        </b-col>
+        <b-col cols="5">
+          <b-form-group
+          id="input-group-2"
+          label="部门名称"
+          label-for="input-2"
+          label-size="sm"
+          label-cols-sm="4"
+          label-align-sm="center">
+            <b-form-input id="input-2" type="text" size="sm"
+              v-model.lazy="$v.departmentForm.name.$model"
+              :state="$v.departmentForm.name.$dirty ? !$v.departmentForm.name.$error : null">
+            </b-form-input>
+          </b-form-group>
+        </b-col>
       </b-form-row>
       <b-row align-h="center">
-        <b-col cols="2" sm="3">
+        <b-col cols="4">
+        </b-col>
+        <b-col cols="2">
           <b-button type="submit" :disabled="submitStatus === 'PENDING'" size="sm" variant="primary">提交</b-button>
         </b-col>
-        <b-col cols="2" sm="3">
+        <b-col cols="2">
           <b-button @click="onReset" size="sm" variant="danger">重置</b-button>
+        </b-col>
+        <b-col cols="4">
         </b-col>
       </b-row>
     </b-form>
@@ -100,7 +108,6 @@ export default {
   data() {
     return {
       departmentForm: {
-        id: null,
         sn: '',
         name: '',
       },
