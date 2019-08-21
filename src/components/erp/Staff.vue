@@ -207,7 +207,7 @@
     <b-row v-if="selectedItem">
       <b-col></b-col>
       <b-col>
-        <b-button variant="danger" @click="readyForChange">修改</b-button>
+        <b-button variant="primary" @click="readyForChange">修改</b-button>
       </b-col>
       <b-col>
         <b-button variant="danger" @click="deleteItemConfirm">删除</b-button>
@@ -310,8 +310,11 @@ export default {
           label: '年龄',
           formatter: (value, key, item) => {
             //  return new Date().getFullYear() - item.age
-             var re = new RegExp(/^(\d{6})()?(\d{4})(\d{2})(\d{2})(\d{3})(\d)$/);
+             var re = new RegExp(/^(\d{6})()?(\d{4})(\d{2})(\d{2})(\d{3})(\w)$/);
              var a = item.personal_id.match(re);
+             for (var i in a) {
+                 console.log("number " + i + "s" + a[i])
+             }
             return new Date().getFullYear() - a[3]
           }
         },

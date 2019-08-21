@@ -82,13 +82,13 @@
       <b-form-row class="justify-content-md-center">
         <b-col sm="5">
           <b-form-group
-          id="input-group-1"
+          id="input-group-3"
           label="名称"
-          label-for="radio-group-1"
+          label-for="input-3"
           label-size="sm"
           label-cols-sm="4"
           label-align-sm="center">
-            <b-form-input id="input-1" type="text" size="sm"
+            <b-form-input id="input-3" type="text" size="sm"
               v-model.lazy="$v.assetForm.name.$model"
               :state="$v.assetForm.name.$dirty ? !$v.assetForm.name.$error : null">
             </b-form-input>
@@ -96,14 +96,14 @@
         </b-col>
         <b-col sm="5">
           <b-form-group
-          id="input-group-9"
+          id="input-group-4"
           label="品牌"
-          label-for="input-9"
+          label-for="input-4"
           label-size="sm"
           label-cols-sm="4"
           label-align-sm="center">
-            <b-form-input id="input-8" type="text" size="sm"
-              v-model.lazy="assetForm.brand">
+            <b-form-input id="input-4" type="text" size="sm"
+              v-model="assetForm.brand">
             </b-form-input>
           </b-form-group>
         </b-col>
@@ -111,29 +111,28 @@
       <b-form-row class="justify-content-md-center">
         <b-col sm="5">
           <b-form-group
-          id="input-group-2"
+          id="input-group-5"
           label="型号"
-          label-for="radio-group-2"
+          label-for="input-5"
           label-size="sm"
           label-cols-sm="4"
           label-align-sm="center">
-            <b-form-input id="input-2" type="text" size="sm"
+            <b-form-input id="input-5" type="text" size="sm"
               v-model.lazy="$v.assetForm.model.$model"
               :state="$v.assetForm.model.$dirty ? !$v.assetForm.model.$error : null">
             </b-form-input>
           </b-form-group>
-
         </b-col>
         <b-col sm="5">
           <b-form-group
-          id="input-group-2"
+          id="input-group-6"
           label="数量"
-          label-for="input-2"
+          label-for="input-6"
           label-size="sm"
           label-cols-sm="4"
           description="有序列号的数量只能为1"
           label-align-sm="center">
-            <b-form-input id="input-2" type="number" size="sm"
+            <b-form-input id="input-6" type="number" size="sm"
               v-model.lazy="$v.assetForm.quantity.$model"
               :state="$v.assetForm.quantity.$dirty ? !$v.assetForm.quantity.$error : null">
             </b-form-input>
@@ -144,28 +143,57 @@
       <b-form-row class="justify-content-md-center">
         <b-col sm="5">
           <b-form-group
-          id="input-group-8"
+          id="input-group-7"
           label="序列号"
-          label-for="input-8"
+          label-for="input-7"
           label-size="sm"
           label-cols-sm="4"
-          description="有序列号的必须填写"
+          description="没有序列号的请按名称型号编写"
           label-align-sm="center">
-            <b-form-input id="input-8" type="text" size="sm"
-              v-model.lazy="assetForm.sn">
+            <b-form-input id="input-7" type="text" size="sm"
+              v-model.lazy="assetForm.sn" :state="$v.assetForm.sn.$dirty ? !$v.assetForm.sn.$error : null">
             </b-form-input>
           </b-form-group>
         </b-col>
         <b-col sm="5">
           <b-form-group
-          id="input-group-9"
+          id="input-group-8"
           label="开始时间"
-          label-for="input-9"
+          label-for="input-8"
           label-size="sm"
           label-cols-sm="4"
           label-align-sm="center">
             <b-form-input id="input-8" type="date" size="sm"
-              v-model.lazy="$v.assetForm.startTime.$model" :state="$v.assetForm.startTime.$dirty ? !$v.assetForm.startTime.$error : null">
+              v-model.lazy="$v.assetForm.start_time.$model" :state="$v.assetForm.start_time.$dirty ? !$v.assetForm.start_time.$error : null">
+            </b-form-input>
+          </b-form-group>
+        </b-col>
+      </b-form-row>
+      <b-form-row class="justify-content-md-center">
+        <b-col sm="5">
+          <b-form-group
+          id="input-group-9"
+          label="采购价格"
+          label-for="input-9"
+          label-size="sm"
+          label-cols-sm="4"
+          description="有序列号的必须填写"
+          label-align-sm="center">
+            <b-form-input id="input-9" type="text" size="sm"
+              v-model.lazy="assetForm.price">
+            </b-form-input>
+          </b-form-group>
+        </b-col>
+        <b-col sm="5">
+          <b-form-group
+          id="input-group-10"
+          label="采购时间"
+          label-for="input-10"
+          label-size="sm"
+          label-cols-sm="4"
+          label-align-sm="center">
+            <b-form-input id="input-10" type="date" size="sm"
+              v-model.lazy="assetForm.buying_time">
             </b-form-input>
           </b-form-group>
         </b-col>
@@ -173,9 +201,9 @@
       <b-form-row>
         <b-col sm="10">
           <b-form-group
-          id="input-group-10"
+          id="input-group-11"
           label="备注"
-          label-for="input-10"
+          label-for="input-11"
           label-size="sm"
           label-cols-sm="4"
           label-align-sm="center">
@@ -213,7 +241,7 @@
     <b-row v-if="selectedItem">
       <b-col></b-col>
       <b-col>
-        <b-button variant="danger" @click="readyForChange">修改</b-button>
+        <b-button variant="primary" @click="readyForChange">修改</b-button>
       </b-col>
       <b-col>
         <b-button variant="danger" @click="deleteItemConfirm">删除</b-button>
@@ -243,6 +271,12 @@
         <b>{{ data.value ? '是' : '否'}}</b>
       </template>
 -->
+      <template slot="[start_time]" slot-scope="data">
+        {{ data.value | moment('YYYY-MM-DD') }}
+      </template>
+      <template slot="[buying_time]" slot-scope="data">
+        {{ data.value | moment('YYYY-MM-DD') }}
+      </template>
         <div slot="table-busy" class="text-center text-danger my-2">
           <b-spinner class="align-middle"></b-spinner>
           <strong>Loading...</strong>
@@ -253,7 +287,6 @@
 </template>
 <script>
 import { required, minValue, integer} from 'vuelidate/lib/validators'
-//import moment from 'moment'
 import axios from 'axios'
 import lodash from 'lodash'
 import moment from 'moment'
@@ -267,14 +300,16 @@ export default {
         model: '',
         sn: '',
         brand: '',
-        startTime: '',
+        start_time: '',
         note: '',
         department_id: '',
         staff_id: '',
         quantity: 1,
+        price: 0.00,
+        buying_time: '',
       },
       assets: [],
-      baseURL: "/data/staff",
+      baseURL: "/data/asset",
       selectedItem: null,
       submitStatus: '',
       error: '',
@@ -313,8 +348,16 @@ export default {
           label: '序列号',
         },
         {
-          key: 'startTime',
+          key: 'start_time',
           label: '开始时间',
+        },
+        {
+          key: 'price',
+          label: '价格'
+        },
+        {
+          key: 'buying_time',
+          label: '购买时间'
         },
         {
           key: 'note',
@@ -336,7 +379,7 @@ export default {
         integer,
         minValue: minValue(1),
       },
-      startTime: {
+      start_time: {
         required,
       },
       department_id: {
@@ -345,20 +388,13 @@ export default {
       staff_id: {
         required,
       },
+      sn: {
+        required,
+      }
     }
   },
-  created: function () {
-    // `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
-    // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
-    // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
-    // `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
-    // 请参考：https://lodash.com/docs#debounce
-    this.debouncedFillData = lodash.debounce(this.fillData, 500)
-  },
   mounted: function () {
-  //  this.debouncedFillData()
     this.fetchDepartments()
-    this.fetchJobType()
   },
   methods: {
     submit() {
@@ -370,10 +406,15 @@ export default {
         // do your submit logic here
         this.submitStatus = 'PENDING'
         var postData = JSON.parse(JSON.stringify(this.assetForm))
+        // this for golang josn string to time.time convert
+        postData.start_time = moment.utc(this.assetForm.start_time, 'MM/DD/YYYY', true).format()
+        if (this.assetForm.buying_time != '') {
+          postData.buying_time = moment.utc(this.assetForm.buying_time, 'MM/DD/YYYY', true).format()
+        }
+
         axios.post(this.baseURL,postData).then(() => {
           this.submitStatus = 'OK'
-          var message = "创建员工：" + this.assetForm.name + "成功！"
-          this.debouncedFillData()
+          this.fillData()
           this.showSuccessAlert()
         }).catch(error => {
           //console.log(error.response)
@@ -381,7 +422,7 @@ export default {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
             if (error.response.status == 409) {
-              this.error = "员工已存在"
+              this.error = "该固定资产已存在"
             } else {
               this.error = error.response.data.error
             }
@@ -392,7 +433,7 @@ export default {
       }
     },
     update() {
-      var message = "修改员工：" + this.assetForm.name + "成功！"
+      var message = "修改固定资产：" + this.assetForm.name + "-" + this.assetForm.sn + " 成功！"
       this.showConfirmMsgBox(message)
       this.showSuccessAlert()
     },
@@ -419,17 +460,6 @@ export default {
       this.isChangeData = false
       // reset validate status
       this.$v.$reset()
-    },
-    fetchJobType() {
-      var vm = this
-      var url = this.baseURL+"/jobType"
-      axios.get(url).then(response => {
-        vm.jobTypes = response.data.jobTypes
-        }).catch(function (error) {
-          if (error.response) {
-              vm.error = "服务器错误：" + error
-            }
-        })
     },
     fetchDepartments() {
       var vm = this
@@ -475,19 +505,20 @@ export default {
     },
     onStaffInput(value) {
       this.staf = this.staff.get(value)
+      this.fillData()
     },
     fillData() {
       var vm = this
-      var url = vm.baseURL
-      vm.staff = null
+      var url = vm.baseURL + "/staff/" + this.staf.id
+      vm.assets = []
       vm.isBusy = true
       axios.get(url).then(response => {
-          vm.staff = response.data.staff
+          vm.assets = response.data.asset
         }).catch(function (error) {
           if (error.response) {
               // The request was made and the server responded with a status code
               // that falls out of the range of 2xx
-              vm.error = "服务器错误：" + error
+              vm.error = "获取资产错误：" + error
             }
         }).finally(()=> {
             vm.isBusy = false
@@ -501,27 +532,23 @@ export default {
       var data = JSON.parse(JSON.stringify(this.selectedItem))
       var form = this.assetForm
       form.name = data.name
-      form.employee_id = data.employee_id
-      form.personal_id = data.personal_id
-      form.onboard_time = data.onboard_time
-      form.is_multitime_hired = data.is_multitime_hired
-      form.is_resign = data.is_resign
-      form.first_onboard_time = data.first_onboard_time
-      form.phone = data.phone
+      form.model = data.model
+      form.sn = data.sn
+      form.brand = data.brand
+      form.start_time = data.start_time
+      form.note = data.note
+      form.department_id = data.department_id
+      form.staff_id = data.staff_id
       form.department = data.department
-      form.job = data.job
-      vm.department_select_id = data.department.id
-      vm.isChangeData = true
+      form.quantity = data.quantity
+      vm.price = data.price
+      vm.buying_time = data.buying_time
     },
     deleteItem() {
       var vm = this
       var url = this.baseURL
     //  console.log(this.selectedItem)
       var data = JSON.parse(JSON.stringify(this.selectedItem))
-      // this for golang josn string to time.time convert
-      data.onboard_time = moment.utc(this.selectedItem.onboard_time, 'YYYY-MM-DD', true).format()
-      data.first_onboard_time = moment.utc(this.selectedItem.first_onboard_time, 'YYYY-MM-DD', true).format()
-
       axios.delete(url, { data: data}).then(() => {
           vm.fillData()
           vm.$refs.table.refresh()
@@ -529,7 +556,7 @@ export default {
           if (error.response) {
               // The request was made and the server responded with a status code
               // that falls out of the range of 2xx
-              vm.error = "服务器错误：" + error
+              vm.error = "删除资产错误：" + error
             }
       })
     },
