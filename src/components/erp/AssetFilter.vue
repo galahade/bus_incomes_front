@@ -244,9 +244,6 @@
         <b-button variant="primary" @click="readyForChange">修改</b-button>
       </b-col>
       <b-col>
-        <b-button variant="primary" @click="showTransfer=true">转移</b-button>
-      </b-col>
-      <b-col>
         <b-button variant="danger" @click="deleteItemConfirm">删除</b-button>
       </b-col>
       <b-col></b-col>
@@ -289,90 +286,6 @@
         </div>
       </b-table>
     </b-row>
-    <div>
-      <b-modal
-        v-model="showTransfer"
-        title="转换所有人"
-        size="lg"
-        header-bg-variant="primary"
-        header-text-variant="light"
-        body-bg-variant="light"
-        body-text-variant="dark"
-        footer-bg-variant="warning"
-        footer-text-variant="dark"
-      >
-        <b-container fluid>
-          <b-form @submit.prevent="submit" novalidate>
-            <b-row class="text-center">
-              <b-col cols="2">接收人</b-col>
-              <b-col sm="4">
-                <b-form-select id="input-1" v-model="$v.assetTransferForm.department_id.$model" :options="departmentsOptions" size="sm" :select-size="4" @input="onTDepartmentInput" :state="$v.assetTransferForm.department_id.$dirty ? !$v.assetTransferForm.department_id.$error : null"></b-form-select>
-              </b-col>
-              <b-col v-if="assetTransferForm.department_id" sm="4">
-                <b-form-select id="input-2" v-model="$v.assetTransferForm.staff_id.$model" :options="transferStaffOptions" size="sm" :select-size="4" @input="onTStaffInput" :state="$v.assetTransferForm.staff_id.$dirty ? !$v.assetTransferForm.staff_id.$error : null"></b-form-select>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col>
-                <br>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col>
-                <b-form-group
-                id="input-group-8"
-                label="接收时间"
-                label-for="input-8"
-                label-size="sm"
-                label-cols-sm="3"
-                label-align-sm="center">
-                  <b-form-input id="input-8" type="date" size="sm"
-                    v-model.lazy="$v.assetTransferForm.transfer_time.$model" :state="$v.assetTransferForm.transfer_time.$dirty ? !$v.assetTransferForm.transfer_time.$error : null">
-                  </b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col>
-                <b-form-group
-                id="input-group-11"
-                label="备注"
-                label-for="input-11"
-                label-size="sm"
-                label-cols-sm="2"
-                label-align-sm="center">
-                  <b-form-textarea
-                    id="textarea"
-                    v-model="assetTransferForm.note"
-                    placeholder="备注"
-                    rows="3"
-                    max-rows="3"
-                  ></b-form-textarea>
-                </b-form-group>
-              </b-col>
-            </b-row>
-          </b-form>
-        </b-container>
-        <div slot="modal-footer" class="w-100">
-          <p class="float-left">Modal Footer Content</p>
-          <b-button
-            variant="danger"
-            size="sm"
-            class="float-right"
-            @click="showTransfer=false"
-          >
-            关闭
-          </b-button>
-          <p class="float-right">&nbsp;</p>
-          <b-button
-            variant="primary"
-            size="sm"
-            class="float-right"
-            @click="submitTransfer"
-          >
-            提交
-          </b-button>
-        </div>
-      </b-modal>
-    </div>
   </b-container>
 </template>
 <script>
@@ -398,15 +311,6 @@ export default {
         price: 0,
         buying_time: '',
       },
-      assetTransferForm: {
-        asset_id: '',
-        orginal_staff_id: '',
-        department_id: '',
-        staff_id: '',
-        transfer_time: moment().format('YYYY-MM-DD'),
-        orginal_start_time: '',
-        note: '',
-      },
       assets: [],
       baseURL: "/data/asset",
       selectedItem: null,
@@ -418,14 +322,12 @@ export default {
       staff: null,
       staf: null,
       staffOptions: [],
-      transferStaffOptions: [],
       departmentsOptions: [],
       jobTypes: [],
       // alert control
       errorDismissCountDown: 0,
       successDismissCountDown: 0,
       dismissSecs: 10,
-      showTransfer: false,
       tableFields: [
         {
           key: 'index',
@@ -495,44 +397,10 @@ export default {
       price: {
         decimal,
       }
-    },
-    assetTransferForm: {
-      department_id: {
-        required,
-      },
-      staff_id: {
-        required,
-      },
-      transfer_time: {
-        required,
-      },
-      orginal_staff_id: {
-        required,
-      },
-      asset_id: {
-        required,
-      },
-      orginal_start_time: {
-        required,
-      }
-    },
+    }
   },
   mounted: function () {
     this.fetchDepartments()
-  },
-  computed: {
-    filteredStaff() {
-      /*
-      var city = this.options.opt_city;
-      var province = this.support.home_province;
-      for (var i = 0; i < city.length; i++) {
-        if (city[i].dependency != province.value) {
-          city.splice(i);
-        }
-      }
-      return city;
-      */
-    },
   },
   methods: {
     submit() {
@@ -617,10 +485,6 @@ export default {
       vm.departmentsOptions = []
       axios.get(url).then(response => {
       //  console.log(response.data.department)
-        var temp = {}
-        temp.value = null
-        temp.text = "请选择部门"
-        vm.departmentsOptions.push(temp)
         response.data.department.forEach(v=>{
             var temp = {}
             temp.value = v.id
@@ -634,32 +498,18 @@ export default {
             }
         })
     },
-    getOwnerStaffList(value) {
-      this.staffOptions = this.fetchStaffByDepartmentID(value, true)
-    },
-    getTransferStaffList(value) {
-      this.transferStaffOptions = this.fetchStaffByDepartmentID(value, false)
-    },
-    fetchStaffByDepartmentID(value, isOwner) {
+    fetchStaffByDepartmentID() {
       var vm = this
-      var url = "/data/department/" + value + "/staff"
-      var arr = []
-      if (isOwner) {
-        vm.staff = new Map()
-      }
+      var url = "/data/department/" + vm.assetForm.department_id + "/staff"
+      vm.staffOptions = []
+      vm.staff = new Map()
       axios.get(url).then(response => {
-        var temp = {}
-        temp.value = null
-        temp.text = "请选择员工"
-        arr.push(temp)
         response.data.staff.forEach(v=>{
-          if (isOwner) {
-            vm.staff.set(v.id, v)
-          }
+          vm.staff.set(v.id, v)
           var temp = {}
           temp.value = v.id
           temp.text = v.name + '-' +v.job
-          arr.push(temp)
+          vm.staffOptions.push(temp)
         })
         }).catch(function (error) {
           if (error.response) {
@@ -667,20 +517,13 @@ export default {
               vm.showErrorAlert()
             }
         })
-        return arr
     },
     onDepartmentInput(value) {
-      this.getOwnerStaffList(value)
+      this.fetchStaffByDepartmentID()
     },
     onStaffInput(value) {
       this.staf = this.staff.get(value)
       this.fillData()
-    },
-    onTDepartmentInput(value) {
-      this.getTransferStaffList(value)
-    },
-    onTStaffInput(value) {
-
     },
     fillData() {
       var vm = this
@@ -735,39 +578,6 @@ export default {
             }
       })
     },
-    submitTransfer() {
-      var vm = this
-      this.error = ''
-      var url = this.baseURL + "/transfer"
-      this.$v.assetTransferForm.$touch();
-      var form = this.assetTransferForm
-
-      form.orginal_staff_id = this.staf.id
-      form.asset_id = this.selectedItem.id
-      form.orginal_start_time = this.selectedItem.start_time
-
-      if(form.note != '') {
-        form.note = form.transfer_time + " 转移 " + this.staf.name + " 资产时备注：" + form.note
-      }
-      var postData = JSON.parse(JSON.stringify(form))
-      postData.transfer_time = moment.utc(postData.transfer_time, 'YYYY-MM-DD', true).format()
-      axios.post(url,postData).then(() => {
-        vm.fillData()
-        vm.showTransfer = false
-        vm.showSuccessAlert()
-      }).catch(error => {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          if (error.response.data.error != null) {
-            this.error = "转移固定资产错误：" + error.response.data.error
-          } else {
-            this.error = "转移固定资产错误，请联系管理员。"
-          }
-        }
-        this.showErrorAlert()
-      })
-    },
     updateConfirm() {
       var message = '确认修改 ' + this.selectedItem.name + ' 的信息？'
       this.dialogConfirm(message, this.update)
@@ -808,9 +618,6 @@ export default {
           callback()
         }
       })
-    },
-    transferConfirm() {
-
     },
     deleteItemConfirm() {
       var message = '确认删除 ' + this.selectedItem.name + ' ？'
