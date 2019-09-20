@@ -553,7 +553,8 @@ export default {
           postData.buying_time = moment.utc("1900-01-01", 'YYYY-MM-DD', true).format()
         }
         postData.price = this.convertPriceToInt(this.assetForm.price)
-        console.log(postData.price)
+        //This is for make sure quantity is a number when convert to json
+        postData.quantity = Number(this.assetForm.quantity)
         axios.post(this.baseURL,postData).then(() => {
           this.submitStatus = 'OK'
           this.fillData()
